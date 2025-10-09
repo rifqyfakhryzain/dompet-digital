@@ -55,14 +55,28 @@
     const asli = document.getElementById("jumlah_asli");
 
     tampil.addEventListener("input", function() {
-        let value = this.value.replace(/\D/g, ""); // hanya angka
+        // Simpan posisi kursor sebelum diformat
+        const start = this.selectionStart;
+        const end = this.selectionEnd;
+        const oldLength = this.value.length;
+
+        // Ambil angka murni
+        let value = this.value.replace(/\D/g, "");
         if (!value) {
             asli.value = "";
             this.value = "";
             return;
         }
-        this.value = new Intl.NumberFormat("id-ID").format(value);
+
+        // Format ribuan
+        const formatted = new Intl.NumberFormat("id-ID").format(value);
+        this.value = formatted;
         asli.value = value;
+
+        // Hitung selisih panjang dan kembalikan posisi kursor
+        const newLength = formatted.length;
+        const diff = newLength - oldLength;
+        this.setSelectionRange(start + diff, end + diff);
     });
 </script>
 

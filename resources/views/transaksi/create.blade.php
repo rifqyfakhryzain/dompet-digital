@@ -47,12 +47,30 @@
 
                 <script>
                     function formatRibuan(input) {
+                        // Simpan posisi kursor sebelum format
+                        const selectionStart = input.selectionStart;
+                        const selectionEnd = input.selectionEnd;
+                        const oldLength = input.value.length;
+
                         // Ambil angka murni
                         let value = input.value.replace(/\D/g, '');
-                        let formatted = new Intl.NumberFormat('id-ID').format(value);
+                        if (value === '') {
+                            document.getElementById("jumlah_asli").value = '';
+                            input.value = '';
+                            return;
+                        }
 
-                        input.value = formatted; // tampil pakai format ribuan
-                        document.getElementById("jumlah_asli").value = value; // hidden murni angka
+                        // Format angka dengan pemisah ribuan
+                        let formatted = new Intl.NumberFormat('id-ID').format(value);
+                        input.value = formatted;
+                        document.getElementById("jumlah_asli").value = value;
+
+                        // Hitung selisih panjang setelah diformat
+                        const newLength = formatted.length;
+                        const diff = newLength - oldLength;
+
+                        // Kembalikan posisi kursor agar tetap nyaman saat edit
+                        input.setSelectionRange(selectionStart + diff, selectionEnd + diff);
                     }
                 </script>
 
