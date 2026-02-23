@@ -61,7 +61,7 @@
                         <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em] mb-2 ml-1">Jumlah Nominal (Rp)</label>
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 font-bold text-sm">
-                                
+                                Rp
                             </div>
                             <input type="text" id="jumlah_tampil" 
                                    class="w-full border-slate-200 rounded-2xl focus:border-emerald-500 focus:ring focus:ring-emerald-500/10 text-lg font-extrabold text-slate-800 pl-12 py-3"
