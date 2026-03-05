@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaksi;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Illuminate\Routing\Controller;
+use Illuminate\Validation\Rule;
 
 class TransaksiController extends Controller
 {
@@ -135,4 +136,31 @@ class TransaksiController extends Controller
     {
         abort_if($transaksi->id_pengguna !== $userId, 403, 'akses ditolak');
     }
+
+    public function exportPdf(Request $request)
+    {
+        $userId = $request->user()->id;
+
+        // Kita ambil data dengan filter yang sama seperti di index (opsional)
+        // Agar user bisa export sesuai apa yang mereka filter di layar
+        $query = Transaksi::where('id_pengguna', $userId)->latest('tanggal_transaksi');
+
+        if($request->filled('jenis')) { $query->where('jenis',$request->jenis); }
+        if($request->filled('metode')) { $query->where('metode', $request->metode); }
+        if($request->filled('dari')) { $query->whereDate('tanggal_transaksi', '>=', $request->dari); }
+        if($request->filled('sampai')) { $query->whereDate('tanggal_transaksi', '<=', $request->sampai); }
+
+        $transaksi = $query->get();
+
+        // Hitung total untuk ringkasan di PDF
+        $totalPemasukan = $transaksi->where('jenis', 'pemasukan')->sum('jumlah');
+        $totalPengeluaran = $transaksi->where('jenis', 'pengeluaran')->sum('jumlah');
+        $saldo = $totalPemasukan - $totalPengeluaran;
+
+        $pdf = Pdf::loadView('transaksi.pdf', compact('transaksi', 'saldo', 'totalPemasukan', 'totalPengeluaran'));
+        
+        // Memaksa download file dengan nama spesifik
+        return $pdf->download('Laporan_Transaksi_' . now()->format('Y-m-d') . '.pdf');
+    }
+
 }
