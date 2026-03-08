@@ -1,21 +1,40 @@
 <x-app-layout>
-    <x-slot name="header">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div>
-                <h2 class="text-2xl font-bold text-slate-800 tracking-tight">Riwayat Transaksi</h2>
-                <p class="text-sm text-slate-500">Kelola dan pantau semua catatan keuangan Anda.</p>
-            </div>
-            <a href="{{ route('transaksi.create') }}"
-                class="inline-flex items-center justify-center px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-2xl shadow-lg shadow-emerald-200 transition-all active:scale-95 gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd"
-                        d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-                        clip-rule="evenodd" />
-                </svg>
-                Tambah Transaksi
-            </a>
-        </div>
-    </x-slot>
+<x-slot name="header">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+
+    <!-- Judul -->
+    <div>
+        <h2 class="text-2xl font-bold text-slate-800 tracking-tight">Riwayat Transaksi</h2>
+        <p class="text-sm text-slate-500">Kelola dan pantau semua catatan keuangan Anda.</p>
+    </div>
+
+    <!-- Tombol -->
+    <div class="flex items-center gap-3">
+
+        <a href="{{ route('transaksi.export', request()->all()) }}"
+        class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-xl font-bold text-xs text-white uppercase tracking-widest hover:bg-red-700 active:bg-red-900 transition ease-in-out duration-150 shadow-lg shadow-red-200">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+        </svg>
+
+        Export PDF
+        </a>
+
+        <a href="{{ route('transaksi.create') }}"
+        class="inline-flex items-center justify-center px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-2xl shadow-lg shadow-emerald-200 transition-all active:scale-95 gap-2">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+        </svg>
+
+        Tambah Transaksi
+        </a>
+
+    </div>
+
+</div>
+</x-slot>
 
     <div class="py-10 bg-slate-50/50 min-h-screen">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
