@@ -18,6 +18,7 @@ Route::get('/', function(){
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/transaksi/export-pdf', [TransaksiController::class, 'exportPdf'])->name('transaksi.export');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('transaksi', TransaksiController::class);
 
